@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+
+    </script>
+    <script type="module">
+        import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+        fetch('./S3/pie-data.json')
+            .then(response => response.json())
+            .then(resData => {
+                const data = resData.someData;
+
+
+                // console.log("data", data);
+                //const data = window.data;
+                // console.log("rawData", window.data);
+
+
+
+
+                const div = d3.selectAll("div"), display = "flex";
+                // Step 3
+                var svg = d3.select("svg"),
+                    width = svg.attr("width"),
+                    height = svg.attr("height"),
+                    radius = 200;
+
+                // Step 1
+
+
+                var g = svg.append("g")
+                    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+                // Step 4
+                var ordScale = d3.scaleOrdinal()
+                    .domain(data)
+                    .range(['#ffd384', '#94ebcd', '#fbaccc', '#d3e0ea', '#fa7f72']);
+
+                // Step 5
+                var pie = d3.pie().value(function (d) {
+                    return d.share;
+                });
+
+                var arc = g.selectAll("arc")
+                    .data(pie(data))
+                    .enter();
+
+                // Step 6
+                var path = d3.arc()
+                    .outerRadius(radius)
+                    .innerRadius(0);
+
+                arc.append("path")
+                    .attr("d", path)
+                    .attr("fill", function (d) { return ordScale(d.data.name); });
+
+                // Step 7
+                var label = d3.arc()
+                    .outerRadius(radius)
+                    .innerRadius(0);
+
+                arc.append("text")
+                    .attr("transform", function (d) {
+                        return "translate(" + label.centroid(d) + ")";
+                    })
+                    .text(function (d) { return d.data.name; })
+                    .style("font-family", "arial")
+                    .style("font-size", 15);
+            });
+
+    </script>
+</head>
+
+<body>
+    <div style="display:flex">
+        <div style="align-content: center;justify-content:center">
+            <svg width="500" height="400">
+
+            </svg>
+        </div>
+    </div>
+
+</body>
+
+</html>
