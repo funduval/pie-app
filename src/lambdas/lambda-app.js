@@ -11,7 +11,7 @@ export default async function updateHtml() {
 
     let transform = await dataTransformer();
 
-    const read = jsonfile.readFileSync('./src/S3/transformedData.json');
+    const read = jsonfile.readFileSync('./src/data-store/transformedData.json');
     const rawData = read.someData;
 
     const mapRawData = (rawData) => {
@@ -40,7 +40,7 @@ export default async function updateHtml() {
     }
 
     const mappedData = mapRawData(rawData);
-    jsonfile.writeFileSync('./src/S3/pie-data.json', { "someData": mappedData });
+    jsonfile.writeFileSync('./src/data-store/pie-data.json', { "someData": mappedData });
 
 
   } catch (error) {
