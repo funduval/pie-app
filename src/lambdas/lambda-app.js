@@ -5,15 +5,18 @@ import jsonfile from 'jsonfile';
 import dataTransformer from './lambda-1-data-transform.js';
 
 
-async function updateHtml() {
+export default async function updateHtml() {
+  console.log("updateHTML has been called");
   try {
 
     let transform = await dataTransformer();
 
-    const read = jsonfile.readFileSync('infra/src/S3/transformedData.json');
+    const read = jsonfile.readFileSync('./src/S3/transformedData.json');
     const rawData = read.someData;
 
     const mapRawData = (rawData) => {
+      console.log("file's been read & is being mapped");
+
       const totalCount = rawData.length;
       const secondColumnCounts = {};
 
@@ -37,7 +40,7 @@ async function updateHtml() {
     }
 
     const mappedData = mapRawData(rawData);
-    jsonfile.writeFileSync('infra/src/S3/pie-data.json', { "someData": mappedData });
+    jsonfile.writeFileSync('./src/S3/pie-data.json', { "someData": mappedData });
 
 
   } catch (error) {
@@ -48,4 +51,4 @@ async function updateHtml() {
 }
 
 
-updateHtml();
+

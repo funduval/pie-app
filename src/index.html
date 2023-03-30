@@ -7,23 +7,13 @@
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <script>
-
-    </script>
     <script type="module">
         import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
-        fetch('./S3/pie-data.json')
+
+        fetch('S3/pie-data.json')
             .then(response => response.json())
             .then(resData => {
                 const data = resData.someData;
-
-
-                // console.log("data", data);
-                //const data = window.data;
-                // console.log("rawData", window.data);
-
-
-
 
                 const div = d3.selectAll("div"), display = "flex";
                 // Step 3
